@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:">
+  <title>CMD Manager</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo" data-icon="terminal"></div>
+        <span class="brand-name">CMD Manager</span>
+        <span id="summary" class="muted small"></span>
+        <span id="adminBadge" class="admin-chip hidden" title="App đang chạy với quyền Administrator"><span data-icon="shield"></span>Admin</span>
+      </div>
+      <div class="top-actions">
+        <button id="btnImport" type="button" class="btn" title="Nhập dữ liệu từ file JSON"><span data-icon="upload"></span>Nhập</button>
+        <button id="btnExport" type="button" class="btn" title="Xuất toàn bộ lệnh và danh mục ra file JSON"><span data-icon="download"></span>Xuất</button>
+        <button id="btnNew" type="button" class="btn primary" title="Ctrl+N"><span data-icon="plus"></span>Tạo lệnh mới</button>
+      </div>
+    </header>
+
+    <div class="body">
+      <aside class="sidebar">
+        <div class="side-top">
+          <label class="search">
+            <span data-icon="search"></span>
+            <input id="search" type="search" placeholder="Tìm lệnh…" aria-label="Tìm lệnh">
+          </label>
+          <div id="filters" class="filters" role="group" aria-label="Lọc theo trạng thái"></div>
+        </div>
+        <div class="side-head">
+          <span>Danh mục</span>
+          <div class="side-head-actions">
+            <button id="btnToggleAll" type="button" class="icon-btn ghost sm" title="Thu gọn tất cả danh mục" aria-label="Thu gọn tất cả danh mục"><span data-icon="chevrons"></span></button>
+            <button id="btnCats" type="button" class="icon-btn ghost sm" title="Quản lý danh mục" aria-label="Quản lý danh mục"><span data-icon="plus"></span></button>
+          </div>
+        </div>
+        <div id="groups" class="groups"></div>
+        <footer id="sideFoot" class="side-foot hidden">
+          <span class="foot-info"><span class="dot pulse" style="background:#58A6FF"></span><span id="runningCount"></span></span>
+          <button id="btnStopAll" type="button" class="btn xs danger"><span data-icon="stop"></span>Tắt tất cả</button>
+        </footer>
+      </aside>
+
+      <main id="detail" class="detail"></main>
+    </div>
+  </div>
+
+  <div id="modalRoot"></div>
+  <div id="toasts" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

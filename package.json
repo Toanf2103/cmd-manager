@@ -1,0 +1,47 @@
+{
+  "name": "cmd-manager",
+  "productName": "CMD Manager",
+  "version": "1.0.0",
+  "description": "Lưu, quản lý và chạy các chuỗi lệnh cmd cục bộ trên Windows",
+  "main": "src/main.js",
+  "author": "Toanf2103",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win nsis portable --x64",
+    "build:portable": "electron-builder --win portable --x64",
+    "build:setup": "electron-builder --win nsis --x64"
+  },
+  "build": {
+    "appId": "local.cmdmanager.app",
+    "productName": "CMD Manager",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "src/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "shortcutName": "CMD Manager"
+    },
+    "portable": {
+      "artifactName": "CMD-Manager-${version}-portable.exe"
+    }
+  },
+  "devDependencies": {
+    "electron": "^45.4.1",
+    "electron-builder": "^26.18.0"
+  }
+}
