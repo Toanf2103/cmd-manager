@@ -10,15 +10,20 @@
   <div class="app">
     <header class="topbar">
       <div class="brand">
-        <div class="logo" data-icon="terminal"></div>
-        <span class="brand-name">CMD Manager</span>
+        <span class="logo" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24"><rect x="0.5" y="0.5" width="23" height="23" rx="5" fill="#1A1F27" stroke="#2D333F"/><path d="M5 7 L9.5 12 L5 17" fill="none" stroke="#E6E8EC" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><line x1="12.5" y1="7" x2="19" y2="7" stroke="#3FB950" stroke-width="2.4" stroke-linecap="round"/><line x1="12.5" y1="12" x2="17" y2="12" stroke="#58A6FF" stroke-width="2.4" stroke-linecap="round"/><line x1="12.5" y1="17" x2="14.5" y2="17" stroke="#6E7681" stroke-width="2.4" stroke-linecap="round"/></svg></span>
+        <span class="brand-name"><b>CMD</b> Manager</span>
+      </div>
+      <span class="tb-sep" aria-hidden="true"></span>
+      <div class="tb-status">
         <span id="summary" class="muted small"></span>
+        <span id="runChip" class="run-chip hidden"><span class="dot"></span><span id="runChipText"></span></span>
         <span id="adminBadge" class="admin-chip hidden" title="App đang chạy với quyền Administrator"><span data-icon="shield"></span>Admin</span>
       </div>
+      <div class="tb-drag" aria-hidden="true"></div>
       <div class="top-actions">
-        <button id="btnImport" type="button" class="btn" title="Nhập dữ liệu từ file JSON"><span data-icon="upload"></span>Nhập</button>
-        <button id="btnExport" type="button" class="btn" title="Xuất toàn bộ lệnh và danh mục ra file JSON"><span data-icon="download"></span>Xuất</button>
-        <button id="btnNew" type="button" class="btn primary" title="Ctrl+N"><span data-icon="plus"></span>Tạo lệnh mới</button>
+        <button id="btnImport" type="button" class="btn" aria-label="Nhập" title="Nhập dữ liệu từ file JSON"><span data-icon="upload"></span><span class="lbl">Nhập</span></button>
+        <button id="btnExport" type="button" class="btn" aria-label="Xuất" title="Xuất toàn bộ lệnh và danh mục ra file JSON"><span data-icon="download"></span><span class="lbl">Xuất</span></button>
+        <button id="btnNew" type="button" class="btn primary" title="Tạo lệnh mới (Ctrl+N)" aria-label="Tạo lệnh mới"><span data-icon="plus"></span><span class="lbl">Tạo lệnh mới</span><kbd class="lbl">Ctrl N</kbd></button>
       </div>
     </header>
 

@@ -53,16 +53,47 @@ button:disabled { opacity: .4; cursor: not-allowed; }
 
 /* ---------- Khung ---------- */
 .app { height: 100vh; display: flex; flex-direction: column; }
+/* Topbar = thanh tiêu đề (titleBarOverlay 44px, nút cửa sổ do Windows vẽ ở bên phải) */
 .topbar {
-  display: flex; align-items: center; justify-content: space-between; gap: 12px;
-  padding: 10px 16px; border-bottom: 1px solid var(--line); background: var(--panel);
+  --tb-h: 44px;
+  display: flex; align-items: center; gap: 12px; flex: none;
+  height: var(--tb-h); padding-left: 12px;
+  padding-right: calc(100vw - env(titlebar-area-width, calc(100vw - 138px)));
+  border-bottom: 1px solid var(--line); background: var(--panel);
+  -webkit-app-region: drag; user-select: none;
 }
-.brand { display: flex; align-items: center; gap: 10px; }
-.logo {
-  width: 28px; height: 28px; border-radius: 7px; background: #1C2A3F; color: var(--c-running);
-  display: flex; align-items: center; justify-content: center;
+.topbar button, .topbar .admin-chip, .topbar .run-chip, .topbar #summary { -webkit-app-region: no-drag; }
+.brand { display: flex; align-items: center; gap: 10px; transition: opacity .15s; }
+.logo { width: 22px; height: 22px; display: flex; flex: none; }
+.brand-name { font-weight: 600; font-size: 13px; letter-spacing: -.005em; white-space: nowrap; }
+.brand-name b { font-family: var(--mono); font-weight: 800; }
+.tb-sep { width: 1px; height: 18px; background: var(--line-3); flex: none; }
+.tb-status { display: flex; align-items: center; gap: 8px; min-width: 0; font-size: 12px; white-space: nowrap; }
+.tb-drag { flex: 1; align-self: stretch; min-width: 24px; }
+.run-chip {
+  display: inline-flex; align-items: center; gap: 6px; height: 22px; padding: 0 8px;
+  border-radius: 11px; background: #12233D; color: var(--primary-text); font-size: 12px; font-weight: 500;
 }
-.brand-name { font-weight: 600; font-size: 15px; }
+.run-chip .dot { width: 6px; height: 6px; background: var(--c-running); }
+.topbar .admin-chip { border-radius: 11px; font-size: 12px; font-weight: 500; }
+.topbar .top-actions { gap: 6px; }
+.topbar .top-actions::after { content: ""; width: 1px; height: 18px; background: var(--line-3); margin-left: 6px; }
+.topbar .btn { height: 30px; padding: 0 10px; border-radius: 6px; font-size: 12px; }
+.topbar .btn:not(.primary) { background: transparent; border-color: transparent; color: var(--text-2); }
+.topbar .btn:not(.primary):hover:not(:disabled) { background: var(--raise); color: var(--text); }
+.topbar .btn.primary { padding: 0 12px; }
+.topbar kbd {
+  font-family: var(--mono); font-size: 10px; font-weight: 500; padding: 1px 5px;
+  border-radius: 4px; background: rgba(255, 255, 255, .18);
+}
+body.win-blurred .brand { opacity: .55; }
+body.win-blurred .brand .logo line, body.win-blurred .brand .logo path { stroke: #6E7681; }
+@media (max-width: 1060px) {
+  #summary { display: none; }
+  .topbar .lbl { display: none; }
+  .topbar .btn { width: 30px; padding: 0; border-color: var(--line-3); }
+  .topbar .btn.primary { padding: 0; }
+}
 .body { flex: 1; min-height: 0; display: flex; }
 
 /* ---------- Nút ---------- */

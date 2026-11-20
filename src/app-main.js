@@ -41,6 +41,7 @@ function flushLogs() {
 function sendStatus(snap) {
   flushLogs();
   send('run:status', snap);
+  updateTray();
 }
 function simpleStatus(cmdId, status, extra = {}) {
   const now = Date.now();
@@ -354,8 +355,24 @@ function showWindow() {
   win.focus();
 }
 
+const TRAY_IDLE = path.join(__dirname, 'assets', 'tray.png');
+const TRAY_RUNNING = path.join(__dirname, 'assets', 'tray-running.png');
+let trayRunning = null;
+
+// Đổi icon khay khi có / hết lệnh đang chạy
+function updateTray() {
+  if (!tray) return;
+  let n = 0;
+  try { n = runningCount(); } catch { return; }
+  const running = n > 0;
+  tray.setToolTip(running ? `CMD Manager · ${n} lệnh đang chạy` : 'CMD Manager');
+  if (running === trayRunning) return;
+  trayRunning = running;
+  tray.setImage(running ? TRAY_RUNNING : TRAY_IDLE);
+}
+
 function createTray() {
-  tray = new Tray(path.join(__dirname, 'tray.png'));
+  tray = new Tray(TRAY_IDLE);
   tray.setToolTip('CMD Manager');
   tray.setContextMenu(Menu.buildFromTemplate([
     { label: 'Mở CMD Manager', click: showWindow },
@@ -384,6 +401,10 @@ function createWindow() {
     minHeight: 560,
     backgroundColor: '#0F1115',
     title: 'CMD Manager',
+    icon: path.join(__dirname, 'assets', 'icon.ico'),
+    // Gộp thanh tiêu đề Windows vào topbar (nút cửa sổ vẽ bằng overlay gốc)
+    titleBarStyle: 'hidden',
+    titleBarOverlay: { color: '#13161C', symbolColor: '#C9D1D9', height: 44 },
     autoHideMenuBar: true,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),

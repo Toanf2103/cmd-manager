@@ -349,7 +349,9 @@ function stopAll() {
 function updateSummary() {
   const running = commands.filter((c) => rt(c.id).status === 'running').length;
   const cats = categories.filter((c) => c.id !== UNCAT).length;
-  $('#summary').textContent = `${commands.length} lệnh · ${cats} danh mục · ${running} đang chạy`;
+  $('#summary').textContent = `${commands.length} lệnh · ${cats} danh mục`;
+  $('#runChip').classList.toggle('hidden', !running);
+  $('#runChipText').textContent = `${running} đang chạy`;
   const foot = $('#sideFoot');
   if (foot) {
     foot.classList.toggle('hidden', !running);
@@ -1304,6 +1306,10 @@ function renderAll() {
 document.querySelectorAll('[data-icon]').forEach((el) => el.prepend(icon(el.dataset.icon, el.classList.contains('logo') ? 16 : 15)));
 
 $('#btnNew').addEventListener('click', () => openEditor(null));
+
+// Header mờ đi khi cửa sổ mất focus (giống thanh tiêu đề gốc)
+window.addEventListener('blur', () => document.body.classList.add('win-blurred'));
+window.addEventListener('focus', () => document.body.classList.remove('win-blurred'));
 $('#btnCats').addEventListener('click', openCategories);
 $('#btnToggleAll').addEventListener('click', toggleAllCategories);
 $('#btnStopAll').addEventListener('click', stopAll);
