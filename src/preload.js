@@ -3,6 +3,7 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('api', {
+  hideWindow: () => ipcRenderer.invoke('window:hide'),
   start: (payload) => ipcRenderer.invoke('run:start', payload),
   stop: (cmdId) => ipcRenderer.invoke('run:stop', cmdId),
   listShells: (refresh) => ipcRenderer.invoke('env:shells', refresh),

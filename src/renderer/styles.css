@@ -87,7 +87,7 @@ button:disabled { opacity: .4; cursor: not-allowed; }
   border-radius: 4px; background: rgba(255, 255, 255, .18);
 }
 body.win-blurred .brand { opacity: .55; }
-body.win-blurred .brand .logo line, body.win-blurred .brand .logo path { stroke: #6E7681; }
+body.win-blurred .brand .logo { filter: grayscale(1); }
 @media (max-width: 1060px) {
   #summary { display: none; }
   .topbar .lbl { display: none; }

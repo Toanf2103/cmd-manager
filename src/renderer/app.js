@@ -382,10 +382,19 @@ function renderDetail() {
   renderLog();
 }
 
+/** Logo toanf2103, lấy từ logo ở thanh tiêu đề */
+function brandLogo(size) {
+  const svg = document.querySelector('.brand .logo svg').cloneNode(true);
+  svg.setAttribute('width', size);
+  svg.setAttribute('height', size);
+  svg.setAttribute('aria-hidden', 'true');
+  return svg;
+}
+
 function emptyState() {
   const none = !commands.length;
   return h('div', { class: 'empty' },
-    h('div', { class: 'logo' }, icon('terminal', 24)),
+    h('div', { class: 'logo' }, brandLogo(48)),
     h('h2', null, none ? 'Chưa có lệnh nào' : 'Chọn một lệnh'),
     h('p', null, none
       ? 'Tạo lệnh đầu tiên: đặt tên, chọn thư mục và thêm các lệnh cần chạy.'
@@ -1326,7 +1335,13 @@ $('#btnImport').addEventListener('click', importData);
 $('#search').addEventListener('input', (e) => { search = e.target.value; renderSidebar(); });
 
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && modalClose) { e.preventDefault(); modalClose(); return; }
+  if (e.key === 'Escape') {
+    e.preventDefault();
+    if (e.repeat) return;
+    if (modalClose) modalClose();
+    else api.hideWindow();
+    return;
+  }
   if (modalClose) return;
   if (e.ctrlKey && (e.key === 'n' || e.key === 'N')) { e.preventDefault(); openEditor(null); }
   if (e.ctrlKey && (e.key === 'f' || e.key === 'F')) { e.preventDefault(); $('#search').focus(); }

@@ -1,6 +1,16 @@
+<p align="center"><img src="build/icon.png" width="96" alt="Logo CMD Manager"></p>
+
 # CMD Manager
 
 App Electron để lưu, quản lý và chạy các chuỗi lệnh cmd ngay trên máy Windows.
+
+[Mã nguồn](https://github.com/Toanf2103/cmd-manager) · [Báo lỗi](https://github.com/Toanf2103/cmd-manager/issues) · [Đóng góp](CONTRIBUTING.md) · [Bảo mật](SECURITY.md) · [Giấy phép MIT](LICENSE)
+
+## Yêu cầu
+
+- Windows x64 để sử dụng đầy đủ tính năng và đóng gói các bản `.exe` hiện có.
+- Khi chạy từ mã nguồn: Git, Node.js **từ 22.12.0** trở lên và npm. Đây là yêu cầu của phiên bản Electron trong lockfile.
+- Cài riêng PowerShell 7, Git Bash, MSYS2, Cygwin, WSL hoặc Windows Terminal nếu muốn dùng các môi trường đó.
 
 ## Tính năng
 
@@ -17,21 +27,36 @@ App Electron để lưu, quản lý và chạy các chuỗi lệnh cmd ngay trê
 
 ## Chạy thử
 
-Cần Node.js 20 trở lên.
-
-```bat
-cd D:\tool\cmd-manager
-npm install
+```sh
+git clone https://github.com/Toanf2103/cmd-manager.git
+cd cmd-manager
+npm ci
 npm start
 ```
 
+`npm ci` cài dependency theo `package-lock.json`. Electron được tải ở lần cài đầu nên cần kết nối mạng.
+
+## Sử dụng nhanh
+
+1. Bấm **Tạo lệnh mới** hoặc `Ctrl+N`.
+2. Đặt tên, chọn thư mục làm việc, môi trường thực thi và nhập các bước lệnh.
+3. Bấm **Lưu & chạy**, hoặc lưu lại rồi bấm **Chạy** khi cần.
+4. Xem log và trạng thái trong ứng dụng. Bấm **Tắt** để dừng lệnh.
+5. Bấm **X**, `Alt+F4` hoặc `Esc` để chạy nền; chọn **Thoát** trong menu khay hệ thống để thoát hẳn.
+
+Chỉ chạy các lệnh bạn hiểu và tin cậy. Ứng dụng thực thi lệnh với quyền trên máy của bạn; xem [lưu ý bảo mật](SECURITY.md), nhất là khi nhập file sao lưu hoặc dùng Administrator.
+
 ## Build ra exe
 
-```bat
-npm run build            :: cả bản cài đặt (NSIS) và bản portable
-npm run build:portable   :: chỉ bản portable, 1 file .exe chạy luôn
-npm run build:setup      :: chỉ bản cài đặt
+Chạy trên Windows sau khi cài dependency:
+
+```sh
+npm run build
+npm run build:portable
+npm run build:setup
 ```
+
+Ba lệnh trên lần lượt tạo cả hai bản, chỉ bản portable và chỉ bộ cài NSIS. Chọn lệnh phù hợp với đầu ra cần tạo.
 
 File exe nằm trong thư mục `dist\`:
 
@@ -44,16 +69,16 @@ File exe nằm trong thư mục `dist\`:
 
 | Thao tác | Hành vi |
 |---|---|
-| Chạy | Mỗi lệnh chạy qua `cmd.exe /c` với thư mục làm việc là đường dẫn đã chọn, lần lượt từ trên xuống. Output được ép UTF-8 (`chcp 65001`) |
+| Chạy | Chạy các bước lần lượt trong thư mục đã chọn, bằng môi trường thực thi đã chọn. Với cmd, output được đặt UTF-8 (`chcp 65001`) |
 | Lệnh lỗi | Exit code ≠ 0 → bước đó báo **Lỗi**. Nếu bật "Dừng khi lỗi" thì dừng cả chuỗi |
 | Tắt | `taskkill /PID <pid> /T /F`, tắt cả cây tiến trình con (dev server, node, dotnet…) |
 | Reset | Tắt nếu đang chạy, xoá log, đưa về trạng thái **Chờ** |
-| Đóng cửa sổ (X / Alt+F4) | Luôn hỏi **Thoát / Chạy nền / Huỷ**; chạy nền giữ các lệnh tiếp tục chạy |
-| Thoát app | Chọn **Thoát** sẽ tắt các tiến trình do ứng dụng quản lý và thoát hẳn |
+| Đóng cửa sổ (X / Alt+F4 / Esc) | Ẩn cửa sổ vào khay hệ thống và tiếp tục chạy nền, không hỏi xác nhận; Esc đóng hộp thoại trước nếu đang mở |
+| Thoát app | Chọn **Thoát** trong menu khay hệ thống sẽ tắt các tiến trình do ứng dụng quản lý và thoát hẳn |
 
 ### Chạy nền ở khay hệ thống
 
-- Bấm X hoặc Alt+F4, chọn **Chạy nền** để ẩn cửa sổ khỏi taskbar. Ứng dụng vẫn nhận log và giữ các lệnh tiếp tục chạy.
+- Bấm X, Alt+F4 hoặc Esc (khi không mở hộp thoại) để ẩn cửa sổ khỏi taskbar và chạy nền ngay, không hỏi xác nhận. Ứng dụng vẫn nhận log và giữ các lệnh tiếp tục chạy.
 - Bấm biểu tượng CMD Manager trong khay hệ thống để mở lại. Windows có thể đặt biểu tượng trong menu mở rộng ở nút mũi tên cạnh đồng hồ.
 - Menu chuột phải của biểu tượng có **Mở CMD Manager** và **Thoát**. Chọn **Thoát** sẽ dừng các lệnh do ứng dụng quản lý và thoát hẳn.
 - Mở CMD Manager lần nữa khi đang chạy nền sẽ hiện lại cửa sổ hiện có.
@@ -97,7 +122,7 @@ Với WSL, nút Tắt đóng tiến trình `wsl.exe` phía Windows; một số t
 
 Lưu ý: mỗi lệnh chạy trong một tiến trình riêng, nên `cd` hay `set` ở lệnh trước **không** ảnh hưởng tới lệnh sau. Nếu cần, gộp chúng thành một dòng bằng `&&`, ví dụ `cd src && npm run build`.
 
-Dữ liệu lưu trong `localStorage` (thư mục `%APPDATA%\CMD Manager`):
+Dữ liệu lưu trong `localStorage` ở thư mục dữ liệu người dùng của Electron. Với cấu hình hiện tại trên Windows, mặc định là `%APPDATA%\CMD Manager`:
 
 - `cmdm.categories`: `[{ id, name, color, locked? }]`
 - `cmdm.commands`: `[{ id, categoryId, name, cwd, steps: string[], shell, admin, stopOnError, clearOnRun }]`
@@ -109,11 +134,12 @@ Dữ liệu lưu trong `localStorage` (thư mục `%APPDATA%\CMD Manager`):
   - *Gộp*: thêm mục mới, mục trùng id được cập nhật theo file, không xoá gì.
   - *Thay thế toàn bộ*: dùng hoàn toàn dữ liệu trong file.
 
-Dữ liệu hằng ngày vẫn nằm ở `%APPDATA%\CMD Manager`, nên build lại exe không làm mất dữ liệu. File xuất ra dùng để phòng hờ hoặc chuyển sang máy khác.
+Dữ liệu hằng ngày nằm trong thư mục dữ liệu người dùng, nên build lại exe không tự xóa dữ liệu. File xuất ra dùng để phòng hờ hoặc chuyển sang máy khác. Sao lưu trước khi cập nhật hoặc thay đổi cấu hình ứng dụng.
 
 ## Cấu trúc
 
 ```
+build/               biểu tượng ứng dụng, bản gốc SVG và tài nguyên đóng gói
 src/
   main.js            điểm vào: app thường hoặc chế độ runner (admin)
   app-main.js        cửa sổ, IPC, chạy admin qua UAC, mở Windows Terminal
@@ -121,11 +147,41 @@ src/
   shells.js          quét các môi trường thực thi có trên máy, kiểm tra quyền admin
   runner.js          chế độ runner chạy bằng quyền Administrator
   preload.js         cầu nối IPC an toàn (window.api)
-  tray.png           biểu tượng terminal cho khay hệ thống
+  assets/            icon cửa sổ và icon khay hệ thống khi chờ / đang chạy
   renderer/
     index.html
     styles.css
     app.js           giao diện, lưu localStorage
+.github/             mẫu issue, pull request và kiểm tra cú pháp trên GitHub
+CONTRIBUTING.md      hướng dẫn đóng góp, nhánh và commit
+SECURITY.md          phạm vi bảo mật và cách báo cáo riêng
+LICENSE              giấy phép MIT
 ```
 
-Phím tắt: `F12` mở DevTools, `Ctrl+N` tạo lệnh, `Ctrl+F` tìm kiếm, `Esc` đóng hộp thoại. Trong form, `Enter` thêm dòng lệnh mới, `Ctrl+Enter` lưu và chạy.
+Phím tắt: `F12` mở DevTools, `Ctrl+N` tạo lệnh, `Ctrl+F` tìm kiếm, `Esc` đóng hộp thoại nếu đang mở, hoặc ẩn cửa sổ để chạy nền. Trong form, `Enter` thêm dòng lệnh mới, `Ctrl+Enter` lưu và chạy.
+
+## Phát triển và đóng góp
+
+Xem [CONTRIBUTING.md](CONTRIBUTING.md) để tạo nhánh, gửi commit và pull request. Dự án dùng JavaScript thuần, CommonJS và Electron; không cần bước biên dịch giao diện trước `npm start`.
+
+```sh
+npm run check
+git diff --check
+```
+
+Các lệnh này kiểm tra cú pháp JavaScript và khoảng trắng, không chạy test hoặc build. GitHub Actions chạy kiểm tra cú pháp cho pull request và commit trên `main`.
+
+Tệp văn bản dùng **UTF-8 không BOM**, giữ nguyên tiếng Việt và emoji. `.editorconfig` và `.gitattributes` thống nhất định dạng và xuống dòng giữa các máy. `package-lock.json` được commit để cài dependency nhất quán.
+
+`private: true` trong `package.json` ngăn việc publish nhầm lên npm; mã nguồn vẫn được phân phối theo MIT.
+
+## Giới hạn
+
+- Các bản đóng gói hiện tại chỉ cấu hình cho Windows x64; macOS và Linux chưa được xác nhận hỗ trợ đầy đủ.
+- Log trong giao diện được giữ trong bộ nhớ, tối đa 5.000 dòng cho mỗi lệnh; file sao lưu chứa cấu hình lệnh và danh mục, không chứa lịch sử log.
+- Windows Terminal hiển thị log ở cửa sổ riêng. Việc dừng tiến trình bên trong WSL có giới hạn như mô tả ở trên.
+- Tham số được thay nguyên văn vào lệnh; bạn cần tự đặt dấu nháy phù hợp với shell.
+
+## Giấy phép
+
+Copyright © 2026 Toanf2103. Phát hành theo [giấy phép MIT](LICENSE). Các dependency giữ giấy phép riêng của từng dự án.
