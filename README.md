@@ -4,7 +4,7 @@
 
 App Electron để lưu, quản lý và chạy các chuỗi lệnh cmd ngay trên máy Windows.
 
-[Mã nguồn](https://github.com/Toanf2103/cmd-manager) · [Báo lỗi](https://github.com/Toanf2103/cmd-manager/issues) · [Đóng góp](CONTRIBUTING.md) · [Bảo mật](SECURITY.md) · [Giấy phép MIT](LICENSE)
+[Mã nguồn](https://github.com/Toanf2103/cmd-manager) · [Báo lỗi](https://github.com/Toanf2103/cmd-manager/issues) · [Đóng góp](CONTRIBUTING.md) · [Bảo mật](SECURITY.md) · [Quyền riêng tư](PRIVACY.md) · [Giấy phép MIT](LICENSE)
 
 ## Yêu cầu
 
@@ -64,6 +64,43 @@ File exe nằm trong thư mục `dist\`:
 - `CMD Manager Setup 1.0.0.exe`: bộ cài
 
 > Nếu build báo lỗi quyền tạo symlink (winCodeSign), hãy mở terminal bằng **Run as administrator** hoặc bật **Developer Mode** trong Windows Settings rồi build lại.
+
+## Đóng gói cho Microsoft Store
+
+Trên Windows, sau khi cài dependency:
+
+```sh
+npm run build:store
+```
+
+Lệnh tạo `dist/CMD-Manager-1.0.0-x64.appx` với phiên bản hiện tại và không tự publish.
+Thông tin `build.appx` trong `package.json` khớp với Product identity của hồ sơ Store:
+
+| Trường | Giá trị |
+|---|---|
+| Identity Name | `toanf2103.CMDManager` |
+| Publisher | `CN=46072ABC-805B-49CD-970F-CBB25F139871` |
+| Publisher Display Name | `toanf2103` |
+| Display Name | `CMD Manager` |
+
+Khi dùng fork hoặc tài khoản Store khác, thay các giá trị định danh theo hồ sơ
+của bạn. Không tự tạo Publisher mới cho hồ sơ hiện tại.
+Xem [hướng dẫn Product identity](https://learn.microsoft.com/en-us/windows/apps/publish/view-app-identity-details).
+
+Các logo cho gói nằm trong `build/appx/`, được tạo từ `build/icon.png`.
+Gói khai báo `runFullTrust` cho ứng dụng desktop và `allowElevation` cho chức năng
+Administrator. **`allowElevation` cần Microsoft chấp thuận theo tiêu chí riêng**;
+đóng gói thành công không đồng nghĩa được duyệt lên Store. Xem
+[quy định capability](https://learn.microsoft.com/en-us/windows/apps/package-and-deploy/app-capability-declarations).
+
+Sau khi tạo gói, mở **Start submission** trong Partner Center, thêm gói tại
+**Packages**, hoàn thiện mô tả, ảnh giao diện, URL chính sách quyền riêng tư và
+khai báo độ tuổi. Trong ghi chú xét duyệt, giải thích hai capability, cách chạy
+lệnh Administrator qua UAC và cách thoát ứng dụng từ khay hệ thống.
+
+Microsoft ký lại gói khi phát hành qua Store. Gói chưa ký không dùng để cài
+trực tiếp trên máy; kiểm tra cài đặt cục bộ cần chứng chỉ phát triển phù hợp.
+Xem [yêu cầu trước khi gửi Store](https://learn.microsoft.com/en-us/windows/apps/publish/store-readiness-checklist).
 
 ## Cách hoạt động
 

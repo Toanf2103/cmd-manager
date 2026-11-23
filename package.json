@@ -24,7 +24,8 @@
     "check": "node --check src/main.js && node --check src/app-main.js && node --check src/preload.js && node --check src/engine.js && node --check src/runner.js && node --check src/shells.js && node --check src/renderer/app.js",
     "build": "electron-builder --win nsis portable --x64",
     "build:portable": "electron-builder --win portable --x64",
-    "build:setup": "electron-builder --win nsis --x64"
+    "build:setup": "electron-builder --win nsis --x64",
+    "build:store": "electron-builder --win appx --x64 --publish never"
   },
   "build": {
     "appId": "local.cmdmanager.app",
@@ -52,6 +53,17 @@
       "shortcutName": "CMD Manager",
       "installerIcon": "build/icon.ico",
       "uninstallerIcon": "build/icon.ico"
+    },
+    "appx": {
+      "applicationId": "CMDManager",
+      "identityName": "toanf2103.CMDManager",
+      "publisher": "CN=46072ABC-805B-49CD-970F-CBB25F139871",
+      "publisherDisplayName": "toanf2103",
+      "displayName": "CMD Manager",
+      "languages": ["vi-VN"],
+      "minVersion": "10.0.17763.0",
+      "capabilities": ["runFullTrust", "allowElevation"],
+      "artifactName": "CMD-Manager-${version}-${arch}.appx"
     },
     "portable": {
       "artifactName": "CMD-Manager-${version}-portable.exe"
