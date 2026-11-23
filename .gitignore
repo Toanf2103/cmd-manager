@@ -1,3 +1,23 @@
 node_modules/
 dist/
 *.log
+
+# Dữ liệu và cấu hình riêng trên máy
+.env
+.env.*
+!.env.example
+*.local
+cmd-manager-backup-*.json
+
+# Tệp tạm của hệ điều hành và trình soạn thảo
+.DS_Store
+Thumbs.db
+Desktop.ini
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Báo cáo và bộ nhớ đệm được sinh tự động
+coverage/
+.cache/

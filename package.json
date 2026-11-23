@@ -7,8 +7,21 @@
   "author": "Toanf2103",
   "license": "MIT",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Toanf2103/cmd-manager.git"
+  },
+  "homepage": "https://github.com/Toanf2103/cmd-manager#readme",
+  "bugs": {
+    "url": "https://github.com/Toanf2103/cmd-manager/issues"
+  },
+  "keywords": ["electron", "windows", "command-manager", "terminal"],
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "scripts": {
     "start": "electron .",
+    "check": "node --check src/main.js && node --check src/app-main.js && node --check src/preload.js && node --check src/engine.js && node --check src/runner.js && node --check src/shells.js && node --check src/renderer/app.js",
     "build": "electron-builder --win nsis portable --x64",
     "build:portable": "electron-builder --win portable --x64",
     "build:setup": "electron-builder --win nsis --x64"
@@ -21,7 +34,8 @@
     },
     "files": [
       "src/**/*",
-      "package.json"
+      "package.json",
+      "LICENSE"
     ],
     "win": {
       "target": [
