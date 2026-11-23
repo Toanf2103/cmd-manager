@@ -1335,7 +1335,13 @@ $('#btnImport').addEventListener('click', importData);
 $('#search').addEventListener('input', (e) => { search = e.target.value; renderSidebar(); });
 
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && modalClose) { e.preventDefault(); modalClose(); return; }
+  if (e.key === 'Escape') {
+    e.preventDefault();
+    if (e.repeat) return;
+    if (modalClose) modalClose();
+    else api.hideWindow();
+    return;
+  }
   if (modalClose) return;
   if (e.ctrlKey && (e.key === 'n' || e.key === 'N')) { e.preventDefault(); openEditor(null); }
   if (e.ctrlKey && (e.key === 'f' || e.key === 'F')) { e.preventDefault(); $('#search').focus(); }

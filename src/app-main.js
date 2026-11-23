@@ -13,7 +13,6 @@ const { getShells, isAdmin } = require('./shells');
 let win = null;
 let tray = null;
 let quitting = false;
-let closeDialogOpen = false;
 
 const TEMP_ROOT = path.join(os.tmpdir(), 'cmd-manager');
 
@@ -218,6 +217,10 @@ function openInWindowsTerminal(job, wt, asAdmin, appIsAdmin) {
 // IPC
 // ---------------------------------------------------------------------------
 const starting = new Set();
+
+ipcMain.handle('window:hide', () => {
+  if (win && !win.isDestroyed()) win.hide();
+});
 
 ipcMain.handle('run:start', async (_e, p) => {
   p = p || {};
@@ -425,31 +428,10 @@ function createWindow() {
     return { action: 'deny' };
   });
 
-  win.on('close', async (e) => {
+  win.on('close', (e) => {
     if (quitting) return;
     e.preventDefault();
-    if (closeDialogOpen) return;
-    closeDialogOpen = true;
-    const n = runningCount();
-    try {
-      const { response } = await dialog.showMessageBox(win, {
-        type: n ? 'warning' : 'question',
-        buttons: ['Thoát', 'Chạy nền', 'Huỷ'],
-        defaultId: 1,
-        cancelId: 2,
-        noLink: true,
-        title: 'CMD Manager',
-        message: n ? `Đang có ${n} lệnh chạy.` : 'Bạn muốn thoát hay tiếp tục chạy nền?',
-        detail: 'Chạy nền sẽ ẩn cửa sổ vào khay hệ thống và giữ các lệnh tiếp tục chạy. Thoát sẽ tắt toàn bộ các tiến trình do ứng dụng quản lý.'
-      });
-      if (quitting || !win || win.isDestroyed()) return;
-      if (response === 0) app.quit();
-      else if (response === 1) win.hide();
-    } catch (err) {
-      console.error('Không mở được hộp thoại đóng ứng dụng:', err);
-    } finally {
-      closeDialogOpen = false;
-    }
+    win.hide();
   });
   win.on('closed', () => { win = null; });
 }
